@@ -105,10 +105,11 @@ function buildPlayCommand(
             );
 
         // ── macOS ─────────────────────────────────────────────
-        case "darwin":
+        case "darwin": {
             // `afplay` supports both .wav and .mp3.
             const vol = Math.round(volume * 100);
             return `afplay -v ${vol / 100} '${escaped}'`;
+        }
 
         // ── Linux ─────────────────────────────────────────────
         case "linux":
