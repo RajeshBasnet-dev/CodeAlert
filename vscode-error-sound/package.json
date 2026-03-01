@@ -1,0 +1,91 @@
+{
+    "name": "vscode-error-sound",
+    "displayName": "Error Sound",
+    "description": "Plays a custom sound whenever a new error appears in the code editor.",
+    "version": "1.0.0",
+    "publisher": "your-publisher-name",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "keywords": [
+        "error",
+        "sound",
+        "audio",
+        "notification",
+        "diagnostics"
+    ],
+    "icon": "images/icon.png",
+    "activationEvents": [
+        "onStartupFinished"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "errorSound.setErrorSound",
+                "title": "Set Error Sound",
+                "category": "Error Sound"
+            },
+            {
+                "command": "errorSound.toggleEnabled",
+                "title": "Toggle Error Sound On/Off",
+                "category": "Error Sound"
+            },
+            {
+                "command": "errorSound.playTestSound",
+                "title": "Play Test Sound",
+                "category": "Error Sound"
+            }
+        ],
+        "configuration": {
+            "title": "Error Sound",
+            "properties": {
+                "errorSound.soundFilePath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Absolute path to a custom sound file (mp3 or wav). Leave empty to use the default sound."
+                },
+                "errorSound.enabled": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Enable or disable error sound notifications."
+                },
+                "errorSound.debounceMs": {
+                    "type": "number",
+                    "default": 1000,
+                    "minimum": 200,
+                    "maximum": 10000,
+                    "description": "Minimum time (in milliseconds) between consecutive sound plays to prevent spamming."
+                },
+                "errorSound.volume": {
+                    "type": "number",
+                    "default": 1.0,
+                    "minimum": 0.0,
+                    "maximum": 1.0,
+                    "description": "Volume level for the error sound (0.0 to 1.0). Note: May not be supported on all platforms."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "lint": "eslint src --ext ts",
+        "pretest": "npm run compile"
+    },
+    "devDependencies": {
+        "@types/node": "^20.11.0",
+        "@types/vscode": "^1.80.0",
+        "@typescript-eslint/eslint-plugin": "^6.0.0",
+        "@typescript-eslint/parser": "^6.0.0",
+        "eslint": "^8.50.0",
+        "typescript": "^5.3.0"
+    },
+    "dependencies": {
+        "play-sound": "^1.1.6"
+    }
+}
