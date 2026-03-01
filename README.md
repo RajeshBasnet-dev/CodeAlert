@@ -167,6 +167,60 @@ sudo apt install mpg123
 
 ---
 
+
+## 🛠️ Troubleshooting: `TS1127: Invalid character` in `node_modules/csstype/index.d.ts`
+
+This usually means your local `node_modules` content is corrupted (partial download, bad cache/proxy response, or encoding damage), not that your app source is wrong.
+
+### Why this happens
+- `TS1127` on **line 1** repeated many times in a dependency often indicates the file is not valid TypeScript text on disk.
+- After dependency updates, stale/corrupt package cache or interrupted install can leave broken files under `node_modules`.
+
+### Current project-safe config
+- `tsconfig.json` has `"skipLibCheck": true`, which avoids deep validation of dependency declaration files.
+- `tsconfig.json` now also sets `"types": ["node", "vscode"]` so TypeScript only auto-loads required ambient type packages for this extension, instead of unrelated `@types/*` from parent folders.
+
+### Exact fix commands (Windows PowerShell)
+```powershell
+cd vscode-error-sound
+npm run clean:modules
+npm cache verify
+npm install
+npm run compile
+```
+
+### Exact fix commands (cmd.exe)
+```bat
+cd vscode-error-sound
+npm run clean:modules
+npm cache verify
+npm install
+npm run compile
+```
+
+### Exact fix commands (macOS/Linux)
+```bash
+cd vscode-error-sound
+npm run clean:modules
+npm cache verify
+npm install
+npm run compile
+```
+
+### Verify TypeScript version
+Use the project's local compiler (not global):
+```bash
+npx tsc -v
+```
+Expected: `Version 5.3.3` (from this project's `devDependencies`).
+
+If the issue persists:
+- Ensure you run compile from inside `vscode-error-sound` (so local dependencies are used).
+- Remove any parent-level `node_modules` that may be accidentally picked up by TypeScript.
+- Check whether your environment injects a proxy/mirror that can rewrite npm responses, then retry `npm install` on a clean network.
+
+---
+
 ## 📝 License
 
 MIT — feel free to modify and redistribute.

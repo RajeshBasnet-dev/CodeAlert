@@ -17,7 +17,6 @@
         "notification",
         "diagnostics"
     ],
-    "icon": "images/icon.png",
     "activationEvents": [
         "onStartupFinished"
     ],
